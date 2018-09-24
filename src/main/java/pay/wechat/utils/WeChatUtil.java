@@ -70,8 +70,10 @@ public class WeChatUtil {
      */
     public static String generateSign(WeChatEntity weChatEntity, String weChatKey) {
         if(weChatEntity != null) {
-            weChatEntity.setSign("1");
-            unifiedOrderService.verifyEntity(weChatEntity);
+            if(StringUtil.isBlank(weChatEntity.getSign())) {
+                weChatEntity.setSign("1");
+                unifiedOrderService.verifyEntity(weChatEntity);
+            }
             Map<String,String> payParamMap =  unifiedOrderService.parsingParameters(weChatEntity.toString());
             String[]  keys =  payParamMap.keySet().toArray(new String[0]);
             Arrays.sort(keys);
